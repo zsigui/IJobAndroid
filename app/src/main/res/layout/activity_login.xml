@@ -1,0 +1,56 @@
+<RelativeLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+                xmlns:tools = "http://schemas.android.com/tools"
+                android:id = "@+id/lyMainView"
+                android:layout_width = "match_parent"
+                android:layout_height = "match_parent"
+                tools:context = ".LoginActivity" >
+
+	<include layout = "@layout/header_tool"
+	         android:layout_width = "match_parent"
+	         android:layout_height = "wrap_content"
+	         android:layout_alignParentTop = "true" />
+
+	<LinearLayout
+			android:layout_width = "match_parent"
+			android:layout_height = "wrap_content"
+			android:layout_centerInParent = "true"
+			android:layout_marginLeft = "@dimen/activity_horizontal_margin"
+			android:layout_marginRight = "@dimen/activity_horizontal_margin"
+			android:orientation = "vertical" >
+
+		<EditText
+				android:id = "@+id/etUsername"
+				android:layout_width = "match_parent"
+				android:layout_height = "wrap_content"
+				android:layout_marginBottom = "10dp"
+				android:inputType = "textFilter"
+				android:hint = "用户名" />
+		<EditText
+				android:id = "@+id/etPwd"
+				android:layout_width = "match_parent"
+				android:layout_height = "wrap_content"
+				android:inputType = "textPassword"
+				android:imeOptions = "flagNoExtractUi|actionSend"
+				android:hint = "密码" />
+		<LinearLayout
+				android:layout_width = "match_parent"
+				android:layout_height = "wrap_content"
+				android:orientation = "horizontal" >
+
+			<Button
+					android:id = "@+id/btnLogin"
+					android:layout_width = "0dp"
+					android:layout_height = "wrap_content"
+					android:layout_weight = "1"
+					android:text = "登录" />
+			<Button
+					android:id = "@+id/btnReg"
+					android:layout_width = "0dp"
+					android:layout_height = "wrap_content"
+					android:layout_weight = "1"
+					android:text = "注册" />
+		</LinearLayout >
+
+	</LinearLayout >
+
+</RelativeLayout >

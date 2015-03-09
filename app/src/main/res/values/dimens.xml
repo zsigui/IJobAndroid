@@ -1,0 +1,14 @@
+<resources >
+	<!-- Default screen margins, per the Android Design guidelines. -->
+	<dimen name = "activity_horizontal_margin" >16dp</dimen >
+	<dimen name = "activity_vertical_margin" >16dp</dimen >
+	<dimen name = "profile_pic_width">48dp</dimen>
+	<dimen name = "profile_pic_height">48dp</dimen>
+	<dimen name = "list_item_height">72dp</dimen>
+	<dimen name = "list_item_margin_gap">15dp</dimen>
+	<dimen name = "viewpager_tap_height">60dp</dimen>
+	<dimen name = "view_tap_pic_height">4dp</dimen>
+	<dimen name = "view_tap_pic_width">60dp</dimen>
+	<dimen name = "slide_menu_width">180dp</dimen>
+	<dimen name = "slide_menu_profile_layout_height">180dp</dimen>
+</resources >

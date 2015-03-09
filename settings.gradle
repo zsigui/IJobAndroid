@@ -1,0 +1,1 @@
+include ':app', ':third:smoothSwitchLibrary', ':third:android-universal-image-loader', ':third:zrcListview', ':third:pulltorefresh'

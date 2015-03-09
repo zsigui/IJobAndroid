@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/IJobAndroid.iml" filepath="$PROJECT_DIR$/IJobAndroid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/third/android-universal-image-loader/android-universal-image-loader.iml" filepath="$PROJECT_DIR$/third/android-universal-image-loader/android-universal-image-loader.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/third/pulltorefresh/pulltorefresh.iml" filepath="$PROJECT_DIR$/third/pulltorefresh/pulltorefresh.iml" />
+      <module fileurl="file://$PROJECT_DIR$/third/smoothSwitchLibrary/smoothSwitchLibrary.iml" filepath="$PROJECT_DIR$/third/smoothSwitchLibrary/smoothSwitchLibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/third/third.iml" filepath="$PROJECT_DIR$/third/third.iml" />
+      <module fileurl="file://$PROJECT_DIR$/third/zrcListview/zrcListview.iml" filepath="$PROJECT_DIR$/third/zrcListview/zrcListview.iml" />
+    </modules>
+  </component>
+</project>
+

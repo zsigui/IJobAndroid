@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width = "match_parent"
+              android:layout_height = "match_parent"
+              android:orientation = "vertical"
+              android:background = "@android:color/transparent" >
+
+	<android.support.v4.view.ViewPager
+			android:id = "@+id/vpMain"
+			android:layout_width = "match_parent"
+			android:layout_height = "0dp"
+			android:layout_weight = "1"
+			app:paddingEnd="5dp"
+			android:persistentDrawingCache = "animation" >
+	</android.support.v4.view.ViewPager >
+	<ImageView
+			android:id = "@+id/ivSlipStrip"
+			android:layout_width = "@dimen/view_tap_pic_width"
+			android:layout_height = "@dimen/view_tap_pic_height"
+			android:background = "#002255" />
+	<LinearLayout
+			android:layout_width = "match_parent"
+			android:layout_height = "@dimen/viewpager_tap_height"
+			android:orientation = "horizontal"
+			android:background = "#00000000" >
+		<TextView android:id = "@+id/tvHome"
+		          android:layout_width = "0dp"
+		          android:layout_height = "match_parent"
+		          android:layout_weight = "1"
+		          android:gravity = "center"
+		          android:text = "主页"
+		          android:textSize = "22sp"
+		          android:textColor = "@android:color/black"
+		          android:background = "@drawable/tab_selector" />
+		<TextView android:id = "@+id/tvComment"
+		          android:layout_width = "0dp"
+		          android:layout_height = "match_parent"
+		          android:layout_weight = "1"
+		          android:gravity = "center"
+		          android:text = "评论"
+		          android:textSize = "22sp"
+		          android:textColor = "@android:color/black"
+		          android:background = "@drawable/tab_selector" />
+		<TextView android:id = "@+id/tvSetting"
+		          android:layout_width = "0dp"
+		          android:layout_height = "match_parent"
+		          android:layout_weight = "1"
+		          android:gravity = "center"
+		          android:text = "设置"
+		          android:textSize = "22sp"
+		          android:textColor = "@android:color/black"
+		          android:background = "@drawable/tab_selector" />
+	</LinearLayout >
+</LinearLayout >
