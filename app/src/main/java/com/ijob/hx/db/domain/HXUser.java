@@ -5,9 +5,17 @@ import com.easemob.chat.EMContact;
 /**
  * Created by JackieZhuang on 2015/3/4.
  */
-public class HXUser extends EMContact{
+public class HXUser extends EMContact {
 	private int unreadMsgCount;
 	private String header;
+	private String avatar;
+
+	public HXUser() {
+	}
+
+	public HXUser(String username) {
+		this.username = username;
+	}
 
 	public String getHeader() {
 		return header;
@@ -23,6 +31,15 @@ public class HXUser extends EMContact{
 
 	public void setUnreadMsgCount(int unreadMsgCount) {
 		this.unreadMsgCount = unreadMsgCount;
+	}
+
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 
 	@Override

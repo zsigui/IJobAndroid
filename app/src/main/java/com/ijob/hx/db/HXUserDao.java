@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
 
 import com.easemob.util.HanziToPinyin;
-import com.ijob.hx.constants.HXContants;
+import com.ijob.hx.constants.HXConstants;
 import com.ijob.hx.db.domain.HXUser;
 
 import java.util.HashMap;
@@ -71,7 +71,7 @@ public class HXUserDao {
 					headerName = HXUser.getUsername();
 				}
 
-				if (username.equals(HXContants.NEW_FRIENDS_USERNAME) || username.equals(HXContants.GROUP_USERNAME)) {
+				if (username.equals(HXConstants.NEW_FRIENDS_USERNAME) || username.equals(HXConstants.GROUP_USERNAME)) {
 					HXUser.setHeader("");
 				} else if (Character.isDigit(headerName.charAt(0))) {
 					HXUser.setHeader("#");

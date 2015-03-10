@@ -14,8 +14,6 @@ import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMChatOptions;
 import com.easemob.chat.OnMessageNotifyListener;
 import com.easemob.chat.OnNotificationClickListener;
-import com.ijob.hx.model.DefaultHXSDKModel;
-import com.ijob.hx.model.HXSDKModel;
 
 import java.util.Iterator;
 import java.util.List;
@@ -60,7 +58,7 @@ public abstract class HXSDKHelper {
 	 */
 	private static HXSDKHelper me = null;
 
-	public HXSDKHelper(){
+	public HXSDKHelper() {
 		me = this;
 	}
 
@@ -68,22 +66,22 @@ public abstract class HXSDKHelper {
 	 * this function will initialize the HuanXin SDK
 	 *
 	 * @return boolean true if caller can continue to call HuanXin related APIs after calling onInit, otherwise false.
-	 *
+	 * <p/>
 	 * 环信初始化SDK帮助函数
 	 * 返回true如果正确初始化，否则false，如果返回为false，请在后续的调用中不要调用任何和环信相关的代码
-	 *
+	 * <p/>
 	 * for example:
 	 * 例子：
-	 *
+	 * <p/>
 	 * public class DemoHXSDKHelper extends HXSDKHelper
-	 *
+	 * <p/>
 	 * HXHelper = new DemoHXSDKHelper();
 	 * if(HXHelper.onInit(context)){
-	 *     // do HuanXin related work
+	 * // do HuanXin related work
 	 * }
 	 */
-	public synchronized boolean onInit(Context context){
-		if(sdkInited){
+	public synchronized boolean onInit(Context context) {
+		if (sdkInited) {
 			return true;
 		}
 
@@ -107,7 +105,7 @@ public abstract class HXSDKHelper {
 		hxModel = createModel();
 
 		// create a defalut HX SDK model in case subclass did not provide the model
-		if(hxModel == null){
+		if (hxModel == null) {
 			hxModel = new DefaultHXSDKModel(appContext);
 		}
 
@@ -116,11 +114,11 @@ public abstract class HXSDKHelper {
 
 		// 设置sandbox测试环境
 		// 建议开发者开发时设置此模式
-		if(hxModel.isSandboxMode()){
+		if (hxModel.isSandboxMode()) {
 			EMChat.getInstance().setEnv(EMChatConfig.EMEnvMode.EMSandboxMode);
 		}
 
-		if(hxModel.isDebugMode()){
+		if (hxModel.isDebugMode()) {
 			// set debug mode in development process
 			EMChat.getInstance().setDebugMode(true);
 		}
@@ -135,55 +133,57 @@ public abstract class HXSDKHelper {
 
 	/**
 	 * get global instance
+	 *
 	 * @return
 	 */
-	public static HXSDKHelper getInstance(){
+	public static HXSDKHelper getInstance() {
 		return me;
 	}
 
-	public HXSDKModel getModel(){
+	public HXSDKModel getModel() {
 		return hxModel;
 	}
 
-	public String getHXId(){
-		if(hxId == null){
+	public String getHXId() {
+		if (hxId == null) {
 			hxId = hxModel.getHXId();
 		}
 		return hxId;
 	}
 
-	public String getPassword(){
-		if(password == null){
+	public String getPassword() {
+		if (password == null) {
 			password = hxModel.getPwd();
 		}
 		return password;
 	}
 
-	public void setHXId(String hxId){
+	public void setHXId(String hxId) {
 		if (hxId != null) {
-			if(hxModel.saveHXId(hxId)){
+			if (hxModel.saveHXId(hxId)) {
 				this.hxId = hxId;
 			}
 		}
 	}
 
-	public void setPassword(String password){
-		if(hxModel.savePassword(password)){
+	public void setPassword(String password) {
+		if (hxModel.savePassword(password)) {
 			this.password = password;
 		}
 	}
 
 	/**
 	 * the subclass must override this class to provide its own model or directly use {@link DefaultHXSDKModel}
+	 *
 	 * @return
 	 */
 	abstract protected HXSDKModel createModel();
 
 	/**
 	 * please make sure you have to get EMChatOptions by following method and set related options
-	 *      EMChatOptions options = EMChatManager.getInstance().getChatOptions();
+	 * EMChatOptions options = EMChatManager.getInstance().getChatOptions();
 	 */
-	protected void initHXOptions(){
+	protected void initHXOptions() {
 		Log.d(TAG, "init HuanXin Options");
 
 		// 获取到EMChatOptions对象
@@ -212,14 +212,14 @@ public abstract class HXSDKHelper {
 	/**
 	 * logout HuanXin SDK
 	 */
-	public void logout(final EMCallBack callback){
-		EMChatManager.getInstance().logout(new EMCallBack(){
+	public void logout(final EMCallBack callback) {
+		EMChatManager.getInstance().logout(new EMCallBack() {
 
 			@Override
 			public void onSuccess() {
 				// TODO Auto-generated method stub
 				setPassword(null);
-				if(callback != null){
+				if (callback != null) {
 					callback.onSuccess();
 				}
 			}
@@ -233,7 +233,7 @@ public abstract class HXSDKHelper {
 			@Override
 			public void onProgress(int progress, String status) {
 				// TODO Auto-generated method stub
-				if(callback != null){
+				if (callback != null) {
 					callback.onProgress(progress, status);
 				}
 			}
@@ -243,10 +243,11 @@ public abstract class HXSDKHelper {
 
 	/**
 	 * 检查是否已经登录过
+	 *
 	 * @return
 	 */
-	public boolean isLogined(){
-		if(hxModel.getHXId() != null && hxModel.getPwd() != null){
+	public boolean isLogined() {
+		if (hxModel.getHXId() != null && hxModel.getPwd() != null) {
 			return true;
 		}
 
@@ -255,23 +256,24 @@ public abstract class HXSDKHelper {
 
 	/**
 	 * get the message notify listener
+	 *
 	 * @return
 	 */
-	protected OnMessageNotifyListener getMessageNotifyListener(){
+	protected OnMessageNotifyListener getMessageNotifyListener() {
 		return null;
 	}
 
 	/**
-	 *get notification click listener
+	 * get notification click listener
 	 */
-	protected OnNotificationClickListener getNotificationClickListener(){
+	protected OnNotificationClickListener getNotificationClickListener() {
 		return null;
 	}
 
 	/**
 	 * init HuanXin listeners
 	 */
-	protected void initListener(){
+	protected void initListener() {
 		Log.d(TAG, "init listener");
 
 		// create the global connection listener
@@ -280,7 +282,7 @@ public abstract class HXSDKHelper {
 			public void onDisconnected(int error) {
 				if (error == EMError.CONNECTION_CONFLICT) {
 					onConnectionConflict();
-				}else{
+				} else {
 					onConnectionDisconnected(error);
 				}
 			}
@@ -296,21 +298,33 @@ public abstract class HXSDKHelper {
 	/**
 	 * the developer can override this function to handle connection conflict error
 	 */
-	protected void onConnectionConflict(){}
+	protected void onConnectionConflict() {
+	}
+
+	/**
+	 * the developer can override this function to handle user is removed error
+	 */
+	protected void onCurrentAccountRemoved() {
+	}
 
 	/**
 	 * handle the connection connected
 	 */
-	protected void onConnectionConnected(){}
+	protected void onConnectionConnected() {
+	}
 
 	/**
 	 * handle the connection disconnect
+	 *
 	 * @param error see {@link EMError}
 	 */
-	protected void onConnectionDisconnected(int error){}
+	protected void onConnectionDisconnected(int error) {
+	}
 
 	/**
-	 * check the application process name if process name is not qualified, then we think it is a service process and we will not init SDK
+	 * check the application process name if process name is not qualified, then we think it is a service process and
+	 * we will not init SDK
+	 *
 	 * @param pID
 	 * @return
 	 */
@@ -324,7 +338,8 @@ public abstract class HXSDKHelper {
 			ActivityManager.RunningAppProcessInfo info = (ActivityManager.RunningAppProcessInfo) (i.next());
 			try {
 				if (info.pid == pID) {
-					CharSequence c = pm.getApplicationLabel(pm.getApplicationInfo(info.processName, PackageManager.GET_META_DATA));
+					CharSequence c = pm.getApplicationLabel(pm.getApplicationInfo(info.processName,
+							PackageManager.GET_META_DATA));
 					// Log.d("Process", "Id: "+ info.pid +" ProcessName: "+
 					// info.processName +"  Label: "+c.toString());
 					// processName = c.toString();
