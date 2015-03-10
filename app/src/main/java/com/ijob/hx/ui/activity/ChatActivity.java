@@ -1028,6 +1028,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 	private BroadcastReceiver deliveryAckMessageReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
+			// 消息已经送达，停止广播通知
 			abortBroadcast();
 
 			String msgid = intent.getStringExtra("msgid");

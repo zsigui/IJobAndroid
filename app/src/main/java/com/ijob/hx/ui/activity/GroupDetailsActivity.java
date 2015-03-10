@@ -119,7 +119,7 @@ public class GroupDetailsActivity extends BaseActivity implements View.OnClickLi
 		}
 
 		((TextView) findViewById(R.id.group_name)).setText(group.getGroupName() + "(" + group.getAffiliationsCount() + st);
-		adapter = new GridAdapter(this, R.layout.hx_groupusers_grid, group.getMembers());
+		adapter = new GridAdapter(this, R.layout.hx_view_groupusers_grid, group.getMembers());
 		userGridview.setAdapter(adapter);
 
 		// 保证每次进详情看到的都是最新的group
