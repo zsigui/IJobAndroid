@@ -54,13 +54,19 @@ import com.easemob.chat.VideoMessageBody;
 import com.easemob.chat.VoiceMessageBody;
 import com.easemob.exceptions.EaseMobException;
 import com.easemob.util.EMLog;
-import com.easemob.util.ImageUtils;
 import com.easemob.util.PathUtil;
 import com.easemob.util.VoiceRecorder;
 import com.ijob.android.R;
+import com.ijob.android.ui.application.AppInfo;
+import com.ijob.hx.ui.adapter.ExpressionAdapter;
+import com.ijob.hx.ui.adapter.ExpressionPagerAdapter;
+import com.ijob.hx.ui.adapter.MessageAdapter;
+import com.ijob.hx.ui.listener.VoicePlayClickListener;
 import com.ijob.hx.ui.widget.ExpandGridView;
 import com.ijob.hx.ui.widget.PasteEditText;
 import com.ijob.hx.utils.CommonUtils;
+import com.ijob.hx.utils.HXSmileUtils;
+import com.ijob.hx.utils.ImageUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -313,7 +319,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 			listView.setSelection(count - 1);
 		}
 
-		listView.setOnTouchListener(new OnTouchListener() {
+		listView.setOnTouchListener(new View.OnTouchListener() {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
@@ -421,7 +427,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 					}
 					fos = new FileOutputStream(file);
 
-					bitmap.compress(CompressFormat.JPEG, 100, fos);
+					bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -466,7 +472,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 					sendLocationMsg(latitude, longitude, "", locationAddress);
 				} else {
 					String st = getResources().getString(R.string.unable_to_get_loaction);
-					Toast.makeText(this, st, 0).show();
+					Toast.makeText(this, st, Toast.LENGTH_SHORT).show();
 				}
 				// 重发消息
 			} else if (requestCode == REQUEST_CODE_TEXT || requestCode == REQUEST_CODE_VOICE
@@ -535,13 +541,13 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 			selectFileFromLocal();
 		} else if (id == R.id.btn_voice_call) { // 点击语音电话图标
 			if (!EMChatManager.getInstance().isConnected())
-				Toast.makeText(this, st1, 0).show();
+				Toast.makeText(this, st1, Toast.LENGTH_SHORT).show();
 			else
 				startActivity(new Intent(ChatActivity.this, VoiceCallActivity.class).putExtra("username", toChatUsername)
 						.putExtra("isComingCall", false));
 		}else if (id == R.id.btn_video_call) { //视频通话
 			if (!EMChatManager.getInstance().isConnected())
-				Toast.makeText(this, st1, 0).show();
+				Toast.makeText(this, st1, Toast.LENGTH_SHORT).show();
 			else
 				startActivity(new Intent(this, VideoCallActivity.class).putExtra("username", toChatUsername)
 						.putExtra("isComingCall", false));
@@ -554,11 +560,11 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 	public void selectPicFromCamera() {
 		if (!CommonUtils.isExitsSdcard()) {
 			String st = getResources().getString(R.string.sd_card_does_not_exist);
-			Toast.makeText(getApplicationContext(), st, 0).show();
+			Toast.makeText(getApplicationContext(), st, Toast.LENGTH_SHORT).show();
 			return;
 		}
 
-		cameraFile = new File(PathUtil.getInstance().getImagePath(), DemoApplication.getInstance().getUserName()
+		cameraFile = new File(PathUtil.getInstance().getImagePath(), AppInfo.sAppInstance.getUserName()
 				+ System.currentTimeMillis() + ".jpg");
 		cameraFile.getParentFile().mkdirs();
 		startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile)),
@@ -601,8 +607,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 	 *
 	 * @param content
 	 *            message content
-	 * @param isResend
-	 *            boolean resend
 	 */
 	private void sendText(String content) {
 
@@ -610,7 +614,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 			EMMessage message = EMMessage.createSendMessage(EMMessage.Type.TXT);
 			// 如果是群聊，设置chattype,默认是单聊
 			if (chatType == CHATTYPE_GROUP)
-				message.setChatType(ChatType.GroupChat);
+				message.setChatType(EMMessage.ChatType.GroupChat);
 			TextMessageBody txtBody = new TextMessageBody(content);
 			// 设置消息body
 			message.addBody(txtBody);
@@ -644,7 +648,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 			final EMMessage message = EMMessage.createSendMessage(EMMessage.Type.VOICE);
 			// 如果是群聊，设置chattype,默认是单聊
 			if (chatType == CHATTYPE_GROUP)
-				message.setChatType(ChatType.GroupChat);
+				message.setChatType(EMMessage.ChatType.GroupChat);
 			message.setReceipt(toChatUsername);
 			int len = Integer.parseInt(length);
 			VoiceMessageBody body = new VoiceMessageBody(new File(filePath), len);
@@ -672,7 +676,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 		final EMMessage message = EMMessage.createSendMessage(EMMessage.Type.IMAGE);
 		// 如果是群聊，设置chattype,默认是单聊
 		if (chatType == CHATTYPE_GROUP)
-			message.setChatType(ChatType.GroupChat);
+			message.setChatType(EMMessage.ChatType.GroupChat);
 
 		message.setReceipt(to);
 		ImageMessageBody body = new ImageMessageBody(new File(filePath));
@@ -700,7 +704,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 			EMMessage message = EMMessage.createSendMessage(EMMessage.Type.VIDEO);
 			// 如果是群聊，设置chattype,默认是单聊
 			if (chatType == CHATTYPE_GROUP)
-				message.setChatType(ChatType.GroupChat);
+				message.setChatType(EMMessage.ChatType.GroupChat);
 			String to = toChatUsername;
 			message.setReceipt(to);
 			VideoMessageBody body = new VideoMessageBody(videoFile, thumbPath, length, videoFile.length());
@@ -765,7 +769,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 		EMMessage message = EMMessage.createSendMessage(EMMessage.Type.LOCATION);
 		// 如果是群聊，设置chattype,默认是单聊
 		if (chatType == CHATTYPE_GROUP)
-			message.setChatType(ChatType.GroupChat);
+			message.setChatType(EMMessage.ChatType.GroupChat);
 		LocationMessageBody locBody = new LocationMessageBody(locationAddress, latitude, longitude);
 		message.addBody(locBody);
 		message.setReceipt(toChatUsername);
@@ -803,12 +807,12 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 		File file = new File(filePath);
 		if (file == null || !file.exists()) {
 			String st7 = getResources().getString(R.string.File_does_not_exist);
-			Toast.makeText(getApplicationContext(), st7, 0).show();
+			Toast.makeText(getApplicationContext(), st7, Toast.LENGTH_SHORT).show();
 			return;
 		}
 		if (file.length() > 10 * 1024 * 1024) {
 			String st6 = getResources().getString(R.string.The_file_is_not_greater_than_10_m);
-			Toast.makeText(getApplicationContext(), st6, 0).show();
+			Toast.makeText(getApplicationContext(), st6, Toast.LENGTH_SHORT).show();
 			return;
 		}
 
@@ -816,7 +820,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 		EMMessage message = EMMessage.createSendMessage(EMMessage.Type.FILE);
 		// 如果是群聊，设置chattype,默认是单聊
 		if (chatType == CHATTYPE_GROUP)
-			message.setChatType(ChatType.GroupChat);
+			message.setChatType(EMMessage.ChatType.GroupChat);
 
 		message.setReceipt(toChatUsername);
 		// add message body
@@ -915,7 +919,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 	 */
 	public void toGroupDetails(View view) {
 		if(group == null){
-			Toast.makeText(getApplicationContext(), R.string.gorup_not_found, 0).show();
+			Toast.makeText(getApplicationContext(), R.string.gorup_not_found, Toast.LENGTH_SHORT).show();
 			return;
 		}
 		startActivityForResult((new Intent(this, GroupDetailsActivity.class).putExtra("groupId", toChatUsername)),
@@ -978,7 +982,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 			// 收到这个广播的时候，message已经在db和内存里了，可以通过id获取mesage对象
 			EMMessage message = EMChatManager.getInstance().getMessage(msgid);
 			// 如果是群聊消息，获取到group id
-			if (message.getChatType() == ChatType.GroupChat) {
+			if (message.getChatType() == EMMessage.ChatType.GroupChat) {
 				username = message.getTo();
 			}
 			if (!username.equals(toChatUsername)) {
@@ -1135,7 +1139,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 	 * @return
 	 */
 	private View getGridChildView(int i) {
-		View view = View.inflate(this, R.layout.expression_gridview, null);
+		View view = View.inflate(this, R.layout.hx_view_expression_gridview, null);
 		ExpandGridView gv = (ExpandGridView) view.findViewById(R.id.gridview);
 		List<String> list = new ArrayList<String>();
 		if (i == 1) {
@@ -1147,7 +1151,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 		list.add("delete_expression");
 		final ExpressionAdapter expressionAdapter = new ExpressionAdapter(this, 1, list);
 		gv.setAdapter(expressionAdapter);
-		gv.setOnItemClickListener(new OnItemClickListener() {
+		gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -1161,7 +1165,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 							// 这里用的反射，所以混淆的时候不要混淆SmileUtils这个类
 							Class clz = Class.forName("com.easemob.chatuidemo.utils.SmileUtils");
 							Field field = clz.getField(filename);
-							mEditTextContent.append(SmileUtils.getSmiledText(ChatActivity.this, (String) field.get(null)));
+							mEditTextContent.append(HXSmileUtils.getSmiledText(ChatActivity.this, (String) field.get(null)));
 						} else { // 删除文字或者表情
 							if (!TextUtils.isEmpty(mEditTextContent.getText())) {
 
@@ -1172,7 +1176,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 									int i = tempStr.lastIndexOf("[");// 获取最后一个表情的位置
 									if (i != -1) {
 										CharSequence cs = tempStr.substring(i, selectionStart);
-										if (SmileUtils.containsKey(cs.toString()))
+										if (HXSmileUtils.containsKey(cs.toString()))
 											mEditTextContent.getEditableText().delete(i, selectionStart);
 										else
 											mEditTextContent.getEditableText().delete(selectionStart - 1, selectionStart);
@@ -1273,10 +1277,10 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 		String st12 = getResources().getString(R.string.Move_into_blacklist_failure);
 		try {
 			EMContactManager.getInstance().addUserToBlackList(username, false);
-			Toast.makeText(getApplicationContext(), st11, 0).show();
+			Toast.makeText(getApplicationContext(), st11, Toast.LENGTH_SHORT).show();
 		} catch (EaseMobException e) {
 			e.printStackTrace();
-			Toast.makeText(getApplicationContext(), st12, 0).show();
+			Toast.makeText(getApplicationContext(), st12, Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -1307,12 +1311,12 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 	 * listview滑动监听listener
 	 *
 	 */
-	private class ListScrollListener implements OnScrollListener {
+	private class ListScrollListener implements AbsListView.OnScrollListener {
 
 		@Override
 		public void onScrollStateChanged(AbsListView view, int scrollState) {
 			switch (scrollState) {
-				case OnScrollListener.SCROLL_STATE_IDLE:
+				case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
 					if (view.getFirstVisiblePosition() == 0 && !isloading && haveMoreData) {
 						loadmorePB.setVisibility(View.VISIBLE);
 						// sdk初始化加载的聊天记录为20条，到顶时去db里获取更多
@@ -1412,7 +1416,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 				String st13 = getResources().getString(R.string.you_are_group);
 				public void run() {
 					if (toChatUsername.equals(groupId)) {
-						Toast.makeText(ChatActivity.this, st13, 1).show();
+						Toast.makeText(ChatActivity.this, st13, Toast.LENGTH_LONG).show();
 						if (GroupDetailsActivity.instance != null)
 							GroupDetailsActivity.instance.finish();
 						finish();
@@ -1428,7 +1432,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener {
 				String st14 = getResources().getString(R.string.the_current_group);
 				public void run() {
 					if (toChatUsername.equals(groupId)) {
-						Toast.makeText(ChatActivity.this, st14, 1).show();
+						Toast.makeText(ChatActivity.this, st14, Toast.LENGTH_LONG).show();
 						if (GroupDetailsActivity.instance != null)
 							GroupDetailsActivity.instance.finish();
 						finish();

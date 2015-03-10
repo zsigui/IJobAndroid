@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.mapapi.model.LatLng;
 import com.easemob.EMCallBack;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMConversation;
@@ -41,7 +42,12 @@ import com.ijob.android.R;
 import com.ijob.hx.constants.HXConstants;
 import com.ijob.hx.task.LoadImageTask;
 import com.ijob.hx.task.LoadVideoImageTask;
+import com.ijob.hx.ui.activity.BaiduMapActivity;
 import com.ijob.hx.ui.activity.ChatActivity;
+import com.ijob.hx.ui.activity.ShowBigImageActivity;
+import com.ijob.hx.ui.activity.ShowNormalFileActivity;
+import com.ijob.hx.ui.activity.ShowVideoActivity;
+import com.ijob.hx.ui.listener.VoicePlayClickListener;
 import com.ijob.hx.utils.HXSmileUtils;
 import com.ijob.hx.utils.ImageCache;
 import com.ijob.hx.utils.ImageUtils;
@@ -777,9 +783,9 @@ public class MessageAdapter extends BaseAdapter {
 				.getMsgId())&&VoicePlayClickListener.isPlaying) {
 			AnimationDrawable voiceAnimation;
 			if (message.direct == EMMessage.Direct.RECEIVE) {
-				holder.iv.setImageResource(R.anim.voice_from_icon);
+				holder.iv.setImageResource(R.drawable.voice_from_icon);
 			} else {
-				holder.iv.setImageResource(R.anim.voice_to_icon);
+				holder.iv.setImageResource(R.drawable.voice_to_icon);
 			}
 			voiceAnimation = (AnimationDrawable) holder.iv.getDrawable();
 			voiceAnimation.start();
@@ -874,7 +880,7 @@ public class MessageAdapter extends BaseAdapter {
 		final String filePath = fileMessageBody.getLocalUrl();
 		holder.tv_file_name.setText(fileMessageBody.getFileName());
 		holder.tv_file_size.setText(TextFormater.getDataSize(fileMessageBody.getFileSize()));
-		holder.ll_container.setOnClickListener(new OnClickListener() {
+		holder.ll_container.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View view) {
@@ -948,7 +954,7 @@ public class MessageAdapter extends BaseAdapter {
 									holder.tv.setVisibility(View.INVISIBLE);
 									holder.staus_iv.setVisibility(View.VISIBLE);
 									Toast.makeText(activity,
-											activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), 0)
+											activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), Toast.LENGTH_SHORT)
 											.show();
 									timer.cancel();
 								}
@@ -980,7 +986,7 @@ public class MessageAdapter extends BaseAdapter {
 		locationView.setText(locBody.getAddress());
 		LatLng loc = new LatLng(locBody.getLatitude(), locBody.getLongitude());
 		locationView.setOnClickListener(new MapClickListener(loc, locBody.getAddress()));
-		locationView.setOnLongClickListener(new OnLongClickListener() {
+		locationView.setOnLongClickListener(new View.OnLongClickListener() {
 			@Override
 			public boolean onLongClick(View v) {
 				activity.startActivityForResult(
@@ -1016,7 +1022,6 @@ public class MessageAdapter extends BaseAdapter {
 	 *
 	 * @param message
 	 * @param holder
-	 * @param position
 	 */
 	public void sendMsgInBackground(final EMMessage message, final ViewHolder holder) {
 		holder.staus_iv.setVisibility(View.GONE);
@@ -1143,7 +1148,7 @@ public class MessageAdapter extends BaseAdapter {
 							// message.setSendingStatus(Message.SENDING_STATUS_FAIL);
 							holder.staus_iv.setVisibility(View.VISIBLE);
 							Toast.makeText(activity,
-									activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), 0).show();
+									activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), Toast.LENGTH_SHORT).show();
 						}
 					});
 				}
@@ -1194,7 +1199,7 @@ public class MessageAdapter extends BaseAdapter {
 					// holder.pb.setVisibility(View.GONE);
 					// }
 					// holder.staus_iv.setVisibility(View.VISIBLE);
-					Toast.makeText(activity, activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), 0)
+					Toast.makeText(activity, activity.getString(R.string.send_fail) + activity.getString(R.string.connect_failuer_toast), Toast.LENGTH_SHORT)
 							.show();
 				}
 
@@ -1208,7 +1213,6 @@ public class MessageAdapter extends BaseAdapter {
 	 *
 	 * @param thumbernailPath
 	 * @param iv
-	 * @param position
 	 * @return the image exists or not
 	 */
 	private boolean showImageView(final String thumbernailPath, final ImageView iv, final String localFullSizePath, String remoteDir,
@@ -1230,7 +1234,7 @@ public class MessageAdapter extends BaseAdapter {
 				@Override
 				public void onClick(View v) {
 					System.err.println("image view on click");
-					Intent intent = new Intent(activity, ShowBigImage.class);
+					Intent intent = new Intent(activity, ShowBigImageActivity.class);
 					File file = new File(localFullSizePath);
 					if (file.exists()) {
 						Uri uri = Uri.fromFile(file);
@@ -1246,7 +1250,7 @@ public class MessageAdapter extends BaseAdapter {
 						intent.putExtra("remotepath", remote);
 					}
 					if (message != null && message.direct == EMMessage.Direct.RECEIVE && !message.isAcked
-							&& message.getChatType() != ChatType.GroupChat) {
+							&& message.getChatType() != EMMessage.ChatType.GroupChat) {
 						try {
 							EMChatManager.getInstance().ackMessageRead(message.getFrom(), message.getMsgId());
 							message.isAcked = true;
@@ -1294,7 +1298,7 @@ public class MessageAdapter extends BaseAdapter {
 					intent.putExtra("secret", videoBody.getSecret());
 					intent.putExtra("remotepath", videoBody.getRemoteUrl());
 					if (message != null && message.direct == EMMessage.Direct.RECEIVE && !message.isAcked
-							&& message.getChatType() != ChatType.GroupChat) {
+							&& message.getChatType() != EMMessage.ChatType.GroupChat) {
 						message.isAcked = true;
 						try {
 							EMChatManager.getInstance().ackMessageRead(message.getFrom(), message.getMsgId());
