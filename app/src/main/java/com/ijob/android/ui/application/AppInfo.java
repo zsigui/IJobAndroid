@@ -59,7 +59,7 @@ public class AppInfo extends Application {
 				.build();
 		ImageLoader.getInstance().init(mLoaderConfiguration);
 
-
+		sHXSDKHelper.onInit(sAppContext);
 	}
 
 	/**

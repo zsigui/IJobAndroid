@@ -1,7 +1,5 @@
 package com.ijob.hx.task;
 
-import java.io.File;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,10 +11,12 @@ import android.widget.ImageView;
 import com.easemob.chat.EMChatManager;
 import com.easemob.chat.EMMessage;
 import com.easemob.chat.VideoMessageBody;
-import com.easemob.chatuidemo.activity.ShowVideoActivity;
-import com.easemob.chatuidemo.utils.CommonUtils;
-import com.easemob.chatuidemo.utils.ImageCache;
 import com.easemob.util.ImageUtils;
+import com.ijob.hx.ui.activity.ShowVideoActivity;
+import com.ijob.hx.utils.CommonUtils;
+import com.ijob.hx.utils.ImageCache;
+
+import java.io.File;
 
 public class LoadVideoImageTask extends AsyncTask<Object, Void, Bitmap> {
 

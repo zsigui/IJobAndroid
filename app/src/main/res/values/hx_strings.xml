@@ -250,4 +250,7 @@
 	<string name="The_dissolution_of_chatting_new">解散群聊</string>
 
 	<string name="gorup_not_found">找不到这个群组</string>
+
+	<string name = "contacts_tab_message">消息</string>
+	<string name = "contacts_tab_user_list">通讯录</string>
 </resources>

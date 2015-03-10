@@ -34,4 +34,5 @@
 
 	<color name="voip_interface_text_color">#bababa</color>
 	<color name="black_deep">#FF000000</color>
+	<color name = "tab_contacts_bg">#666677</color>
 </resources>
