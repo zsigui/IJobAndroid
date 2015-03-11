@@ -26,6 +26,10 @@ import com.ijob.hx.ui.fragment.ContactsMessageFragment;
 public class ContactsFragment extends BaseDataFragment {
 
 
+	public static final int REFRESH_TYPE_ADDRESS_LIST = 0;
+	public static final int REFRESH_TYPE_UNREAD_MSG = 1;
+	public static final int REFRESH_TYPE_BOTH = 2;
+
 	private ViewPager mViewPager;
 	private RelativeLayout mTabMsg;
 	private RelativeLayout mTabAddressList;
@@ -37,6 +41,9 @@ public class ContactsFragment extends BaseDataFragment {
 	private int mTabOffset = 0;
 	private static int mCurrentIndex = 0;
 
+	public static ContactsFragment newInstance() {
+		return new ContactsFragment();
+	}
 
 
 	@Override
@@ -162,5 +169,7 @@ public class ContactsFragment extends BaseDataFragment {
 	protected void onInitLazyDataLoad() {
 	}
 
+	public void refresh(int type) {
 
+	}
 }

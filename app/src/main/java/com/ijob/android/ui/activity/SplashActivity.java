@@ -21,9 +21,9 @@ import com.ijob.android.util.LUtil;
 /**
  * Created by JackieZhuang on 2015/2/3.
  */
-public class LaunchActivity extends Activity{
+public class SplashActivity extends Activity{
 
-	private static String TAG_LOG = LaunchActivity.class.toString();
+	private static String TAG_LOG = SplashActivity.class.toString();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,7 @@ public class LaunchActivity extends Activity{
 				handler.postDelayed(new Runnable() {
 					@Override
 					public void run() {
-						Intent intent = new Intent(LaunchActivity.this, MainActivity.class);
+						Intent intent = new Intent(SplashActivity.this, MainActivity.class);
 						startActivity(intent);
 						finish();
 					}
