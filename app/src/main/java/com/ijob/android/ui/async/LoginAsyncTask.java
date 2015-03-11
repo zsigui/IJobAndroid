@@ -1,7 +1,6 @@
 package com.ijob.android.ui.async;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.ijob.android.constants.GlobalConfig;
@@ -50,10 +49,8 @@ public class LoginAsyncTask extends Abs_UAAsyncTask {
 
 			// 2.获取设置salt值
 			// 查看本地是否已有该用户salt值
-			SharedPreferences sp = mContext.getSharedPreferences(GlobalConfig.SP_USER_FILENAME, Context.MODE_PRIVATE);
-			String salt = sp.getString(user.getName() + ParamConstants.PARAM_USALT, "");
 			try {
-				if ("".equals(salt)) {
+				if (TextUtils.isEmpty(user.getSalt())) {
 					// 执行请求获取salt值
 					// 成功返回结构 {"code":0x0, "data":"salt_val"}
 					// 非网络异常失败返回结构 {"code":0x1, "error_code":0x101/0x102, "msg":"服务器出错/信息获取失败(请求参数错误)"}，网络异常返回 null
@@ -68,11 +65,6 @@ public class LoginAsyncTask extends Abs_UAAsyncTask {
 					if (tmpReturn != null) {
 						return tmpReturn;
 					}
-					// 存储盐值（由于存在用户名和邮箱登陆，盐值可能会有两个 username-salt 和 email-salt）
-					SharedPreferences.Editor editor = sp.edit();
-					editor.putString(user.getName() + ParamConstants.PARAM_USALT, user.getSalt());
-				} else {
-					user.setSalt(salt);
 				}
 
 				// 3.使用salt值进行MD5加密，MD5(pwd + salt)

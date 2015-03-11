@@ -4,4 +4,9 @@
     <string name="app_name">IJobAndroid</string>
     <string name="action_settings">Settings</string>
 
+	<!-- main -->
+	<string name="tab_home_index">首页</string>
+	<string name="tab_home_pub">发布</string>
+	<string name="tab_home_classmates">同学圈</string>
+	<string name="tab_home_center">个人中心</string>
 </resources>

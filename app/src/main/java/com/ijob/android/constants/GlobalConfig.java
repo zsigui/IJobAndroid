@@ -24,6 +24,8 @@ public class GlobalConfig {
 	 * SharedPreferences文件存放名
 	 */
 	public static final String SP_USER_FILENAME = "IJOB_USER";
+	public static final String SP_KEY_NAME = "";
+	public static final String SP_KEY_PWD = "";
 
 	public static String DESE_KEY = "";
 	public static String DESE_KEY_NO = "";

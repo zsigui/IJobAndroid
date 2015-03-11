@@ -38,6 +38,7 @@
 			android:orientation = "horizontal" >
 
 		<RelativeLayout
+				android:id="@+id/tabMsg"
 				android:layout_width = "0dp"
 				android:layout_height = "match_parent"
 				android:background="@color/tab_contacts_bg"
@@ -61,8 +62,15 @@
 					android:textColor="@android:color/white"
 					android:textSize="12sp"
 					android:visibility="invisible" />
+			<ImageView
+					android:id = "@+id/ivSlipStrip"
+					android:layout_width = "match_parent"
+					android:layout_height = "@dimen/view_tap_pic_height"
+					android:layout_alignParentBottom="true"
+					android:background = "#002255" />
 		</RelativeLayout >
 		<RelativeLayout
+				android:id="@+id/tabAddressList"
 				android:layout_width = "0dp"
 				android:layout_height = "match_parent"
 				android:background="@color/tab_contacts_bg"
@@ -88,12 +96,6 @@
 					android:visibility="invisible" />
 		</RelativeLayout >
 	</LinearLayout >
-	<ImageView
-			android:id = "@+id/ivSlipStrip"
-			android:layout_width = "190dp"
-			android:layout_height = "@dimen/view_tap_pic_height"
-			android:layout_alignParentBottom="true"
-			android:background = "#002255" />
 	<android.support.v4.view.ViewPager
 			android:id = "@+id/vpContent"
 			android:layout_height = "match_parent"

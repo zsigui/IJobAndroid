@@ -29,6 +29,7 @@ import com.ijob.hx.db.HXInviteMessageDao;
 import com.ijob.hx.db.HXUserDao;
 import com.ijob.hx.db.domain.HXUser;
 import com.ijob.hx.ui.activity.ChatActivity;
+import com.ijob.hx.ui.activity.GroupsActivity;
 import com.ijob.hx.ui.activity.NewFriendsMsgActivity;
 import com.ijob.hx.ui.adapter.ContactAdapter;
 import com.ijob.hx.ui.widget.Sidebar;
@@ -118,7 +119,7 @@ public class ContactsListFragment extends BaseFragment{
 					// 进入群聊列表页面
 					startActivity(new Intent(getActivity(), GroupsActivity.class));
 				} else {
-					// demo中直接进入聊天页面，实际一般是进入用户详情页
+					// 直接进入聊天页面，实际一般是进入用户详情页
 					startActivity(new Intent(getActivity(), ChatActivity.class).putExtra("userId", mAdapter.getItem(position).getUsername()));
 				}
 			}

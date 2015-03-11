@@ -2,9 +2,13 @@ package com.ijob.android.ui.application;
 
 import android.app.Application;
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.easemob.EMCallBack;
 import com.ijob.android.R;
+import com.ijob.android.constants.GlobalConfig;
+import com.ijob.android.model.User;
+import com.ijob.android.util.SPUtil;
 import com.ijob.hx.db.domain.HXUser;
 import com.ijob.hx.sdk.impl.DemoHXSDKHelper;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -24,6 +28,7 @@ public class AppInfo extends Application {
 	public static Context sAppContext;
 	public static AppInfo sAppInstance;
 	public static DemoHXSDKHelper sHXSDKHelper = new DemoHXSDKHelper();
+	private User mUser;
 
 	public AppInfo() {
 		super();
@@ -60,6 +65,20 @@ public class AppInfo extends Application {
 		ImageLoader.getInstance().init(mLoaderConfiguration);
 
 		sHXSDKHelper.onInit(sAppContext);
+	}
+
+
+	public void setUser(User user) {
+		this.mUser = user;
+	}
+
+	public User getUser() {
+		if (mUser == null && TextUtils.isEmpty(mUser.getName())) {
+			SPUtil.init(sAppContext, GlobalConfig.SP_USER_FILENAME, Context.MODE_PRIVATE);
+			mUser = new User();
+			mUser.setName(SPUtil.getInstance().getString(GlobalConfig.DEFAULT_HOST_NAME));
+		}
+		return mUser;
 	}
 
 	/**

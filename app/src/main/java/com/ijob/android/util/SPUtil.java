@@ -7,68 +7,93 @@ import android.content.SharedPreferences;
  * Created by JackieZhuang on 2015/1/11.
  */
 public class SPUtil {
-	private static final String PREFS_NAME = "IJOB_PREFS";
+	private final String PREFS_NAME = "IJOB_PREFS";
 
-	public static final String DEFAULT_STRING = "";
-	public static final long DEFAULT_LONG = -1;
-	public static final int DEFAULT_INT = -1;
-	public static final float DEFAULT_FLOAT = -1.0f;
-	public static final boolean DEFAULT_BOOLEAN = false;
+	public final String DEFAULT_STRING = "";
+	public final long DEFAULT_LONG = -1;
+	public final int DEFAULT_INT = -1;
+	public final float DEFAULT_FLOAT = -1.0f;
+	public final boolean DEFAULT_BOOLEAN = false;
 
-	public static String getString(Context context, String key) {
-		SharedPreferences sp = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+	private SharedPreferences sp;
+	private SharedPreferences.Editor editor;
+	private static boolean isNeedRebuild = true;
+	private static SPUtil mInstance;
+
+	public static synchronized void init(Context context, String prefs_file, int mode) {
+		if (isNeedRebuild) {
+			mInstance = new SPUtil(context, prefs_file, mode);
+			isNeedRebuild = false;
+		}
+	}
+
+	private SPUtil(Context context, String prefs_file, int mode) {
+		sp = context.getSharedPreferences(prefs_file, mode);
+		editor = sp.edit();
+	}
+
+	/**
+	 * call init() to build a SharedPreferences Instance originly
+	 *
+	 * @return
+	 */
+	public static SPUtil getInstance() {
+		if (mInstance == null) {
+			throw new RuntimeException("must call init() before");
+		}
+		return mInstance;
+	}
+
+
+	public String getString(String key) {
 		return sp.getString(key, DEFAULT_STRING);
 	}
 
-	public static long getLong(Context context, String key) {
-		SharedPreferences sp = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+	public long getLong(String key) {
 		return sp.getLong(key, DEFAULT_LONG);
 	}
 
-	public static int getInt(Context context, String key) {
-		SharedPreferences sp = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+	public int getInt(String key) {
 		return sp.getInt(key, DEFAULT_INT);
 	}
 
-	public static Float getFloat(Context context, String key) {
-		SharedPreferences sp = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+	public Float getFloat(String key) {
 		return sp.getFloat(key, DEFAULT_FLOAT);
 	}
 
 
-	public static boolean getBoolean(Context context, String key) {
-		SharedPreferences sp = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+	public boolean getBoolean(String key) {
 		return sp.getBoolean(key, DEFAULT_BOOLEAN);
 	}
 
 
-	public static void writeBoolean(Context context, String key, boolean val) {
-		SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
+	public void writeBoolean(String key, boolean val) {
 		editor.putBoolean(key, val);
 		editor.commit();
 	}
 
-	public static void writeLong(Context context, String key, long val) {
-		SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
+	public void writeLong(String key, long val) {
 		editor.putLong(key, val);
 		editor.commit();
 	}
 
-	public static void writeInt(Context context, String key, int val) {
-		SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
+	public void writeInt(String key, int val) {
 		editor.putInt(key, val);
 		editor.commit();
 	}
 
-	public static void writeFloat(Context context, String key, float val) {
-		SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
+	public void writeFloat(String key, float val) {
 		editor.putFloat(key, val);
 		editor.commit();
 	}
 
-	public static void writeString(Context context, String key, String val) {
-		SharedPreferences.Editor editor = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
+	public void writeString(String key, String val) {
 		editor.putString(key, val);
 		editor.commit();
+	}
+
+	public void destory() {
+		isNeedRebuild = true;
+		mInstance = null;
 	}
 }
